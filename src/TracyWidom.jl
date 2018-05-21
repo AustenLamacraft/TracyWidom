@@ -8,7 +8,7 @@ function F2(s::Real, N::Integer)
     nodes, weights = gausslegendre(N)
     sqrt_weights = sqrt.(weights)
     weights_matrix = kron(transpose(sqrt_weights),sqrt_weights)
-    K_matrix = [K2tilde(ξ,η,s) for ξ in nodes, η in nodes]
+    K_matrix = [_K2tilde(ξ,η,s) for ξ in nodes, η in nodes]
     det(eye(N) - weights_matrix .* K_matrix)
 end
 
@@ -22,6 +22,6 @@ end
 
 _ϕ(ξ, s) =  s + 10*tan(π*(ξ+1)/4)
 _ϕprime(ξ) = (5π/2)*(sec(π*(ξ+1)/4))^2
-_K2tilde(ξ,η,s) = sqrt(ϕprime(ξ) * ϕprime(η)) * airy_kernel(ϕ(ξ,s), ϕ(η,s));
+_K2tilde(ξ,η,s) = sqrt(_ϕprime(ξ) * _ϕprime(η)) * _airy_kernel(_ϕ(ξ,s), _ϕ(η,s));
 
 end # module
