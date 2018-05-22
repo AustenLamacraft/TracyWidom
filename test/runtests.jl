@@ -5,5 +5,5 @@ else
     using Test
 end
 
-# write your own tests here
-@test 1 == 2
+@test F1(0) ≈ 0.83190806620295 atol=1e-14
+@test F2(0) ≈ 0.96937282835526 atol=1e-14
