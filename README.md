@@ -8,7 +8,7 @@
 
 This is a Julia implementation of Bornemann's method of evaluating the Fredholm determinant associated with the Tracy-Widom distribution.
 
-Provides two functions `F1` and `F2` giving the Tracy-Widom CDFs for GOE and GUE respectively. The keyword argument `num_points` specifies the number of points in the Gauss-Legendre quadrature, with a default of 25
+Provides two functions `F1` and `F2` giving the Tracy-Widom CDFs for GOE and GUE respectively. The keyword argument `num_points` specifies the number of points in the Gauss-Legendre quadrature, with a default of 25.
 
 # References
 - Folkmar Bornemann
