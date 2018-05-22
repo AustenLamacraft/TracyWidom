@@ -4,24 +4,34 @@ using SpecialFunctions, FastGaussQuadrature
 
 export F2, F1
 
-function F2(s::Real; N::Integer=25, quad::Tuple{Array{T,1},Array{T,1}}=gausslegendre(N)) where {T<:Real}
+function F2(s::Real; num_points::Integer=25)
+    quad = gausslegendre(num_points)
+    _F2(s, quad)
+end
+
+function F2(s_vals::Array{T}; num_points::Integer=25) where {T<:Real}
+    quad = gausslegendre(num_points)
+    [_F2(s, quad) for s in s_vals]
+end
+
+function F1(s::Real; num_points::Integer=25)
+    quad = gausslegendre(num_points)
+    _F1(s, quad)
+end
+
+function F1(s_vals::Array{T}; num_points::Integer=25) where {T<:Real}
+    quad = gausslegendre(num_points)
+    [_F1(s, quad) for s in s_vals]
+end
+
+function _F2(s::Real, quad::Tuple{Array{T,1},Array{T,1}}) where {T<:Real}
     kernel = ((ξ,η) -> _K2tilde(ξ,η,s))
     _fredholm_det(kernel, quad)
 end
 
-function F2(s_vals::Array{T}; num_points::Integer=25) where {T<:Real}
-    quadrature = gausslegendre(num_points)
-    [F2(s, N=num_points, quad=quadrature) for s in s_vals]
-end
-
-function F1(s::Real; N::Integer=25, quad::Tuple{Array{T,1},Array{T,1}}=gausslegendre(N)) where {T<:Real}
+function _F1(s::Real, quad::Tuple{Array{T,1},Array{T,1}}) where {T<:Real}
     kernel = ((ξ,η) -> _K1tilde(ξ,η,s))
     _fredholm_det(kernel, quad)
-end
-
-function F1(s_vals::Array{T}; num_points::Integer=25) where {T<:Real}
-    quadrature = gausslegendre(num_points)
-    [F1(s, N=num_points, quad=quadrature) for s in s_vals]
 end
 
 function _fredholm_det(kernel::Function, quad::Tuple{Array{T,1},Array{T,1}}) where {T<:Real}
