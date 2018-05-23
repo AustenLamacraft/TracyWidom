@@ -9,7 +9,7 @@ function F2(s::Real; num_points::Integer=25)
     _F2(s, quad)
 end
 
-function F2(s_vals::Array{T}; num_points::Integer=25) where {T<:Real}
+function F2(s_vals::AbstractArray{T}; num_points::Integer=25) where {T<:Real}
     quad = gausslegendre(num_points)
     [_F2(s, quad) for s in s_vals]
 end
@@ -19,7 +19,7 @@ function F1(s::Real; num_points::Integer=25)
     _F1(s, quad)
 end
 
-function F1(s_vals::Array{T}; num_points::Integer=25) where {T<:Real}
+function F1(s_vals::AbstractArray{T}; num_points::Integer=25) where {T<:Real}
     quad = gausslegendre(num_points)
     [_F1(s, quad) for s in s_vals]
 end

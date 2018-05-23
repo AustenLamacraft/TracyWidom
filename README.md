@@ -1,7 +1,6 @@
 # TracyWidom
 
 [![Build Status](https://travis-ci.org/AustenLamacraft/TracyWidom.jl.svg?branch=master)](https://travis-ci.org/AustenLamacraft/TracyWidom.jl)
-
 [![Coverage Status](https://coveralls.io/repos/AustenLamacraft/TracyWidom.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/AustenLamacraft/TracyWidom.jl?branch=master)
 
 [![codecov.io](http://codecov.io/github/AustenLamacraft/TracyWidom.jl/coverage.svg?branch=master)](http://codecov.io/github/AustenLamacraft/TracyWidom.jl?branch=master)
