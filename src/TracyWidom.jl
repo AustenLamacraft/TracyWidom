@@ -23,10 +23,18 @@ end
 function _TWcdf(s::Real, beta::Integer, quad::Tuple{Array{T,1},Array{T,1}}) where {T<:Real}
     if beta == 2
         kernel = ((ξ,η) -> _K2tilde(ξ,η,s))
+        return _fredholm_det(kernel, quad)
     elseif beta == 1
         kernel = ((ξ,η) -> _K1tilde(ξ,η,s))
+        return _fredholm_det(kernel, quad)
+    elseif beta ==4
+        # This is from http://iopscience.iop.org/article/10.1088/0305-4470/38/33/L02/meta
+        kernel2 = ((ξ,η) -> _K2tilde(ξ,η,s*sqrt(2)))
+        kernel1 = ((ξ,η) -> _K1tilde(ξ,η,s*sqrt(2)))
+        F2 = _fredholm_det(kernel2, quad)
+        F1 = _fredholm_det(kernel1, quad)
+        return (F1 + F2/F1) / 2
     end
-    _fredholm_det(kernel, quad)
 end
 
 function _fredholm_det(kernel::Function, quad::Tuple{Array{T,1},Array{T,1}}) where {T<:Real}
