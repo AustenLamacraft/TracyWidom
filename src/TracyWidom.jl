@@ -2,35 +2,30 @@ module TracyWidom
 
 using SpecialFunctions, FastGaussQuadrature
 
-export F2, F1
+export TWcdf
 
-function F2(s::Real; num_points::Integer=25)
+function TWcdf(s::Real; beta::Integer=2, num_points::Integer=25)
+    if beta ∉ (1,2,4)
+        throw(ArgumentError("Beta must be 1, 2, or 4."))
+    end
     quad = gausslegendre(num_points)
-    _F2(s, quad)
+    _TWcdf(s, beta, quad)
 end
 
-function F2(s_vals::AbstractArray{T}; num_points::Integer=25) where {T<:Real}
+function TWcdf(s_vals::AbstractArray{T}; beta::Integer=2, num_points::Integer=25) where {T<:Real}
+    if beta ∉ (1,2,4)
+        throw(ArgumentError("Beta must be 1, 2, or 4"))
+    end
     quad = gausslegendre(num_points)
-    [_F2(s, quad) for s in s_vals]
+    [_TWcdf(s, beta, quad) for s in s_vals]
 end
 
-function F1(s::Real; num_points::Integer=25)
-    quad = gausslegendre(num_points)
-    _F1(s, quad)
-end
-
-function F1(s_vals::AbstractArray{T}; num_points::Integer=25) where {T<:Real}
-    quad = gausslegendre(num_points)
-    [_F1(s, quad) for s in s_vals]
-end
-
-function _F2(s::Real, quad::Tuple{Array{T,1},Array{T,1}}) where {T<:Real}
-    kernel = ((ξ,η) -> _K2tilde(ξ,η,s))
-    _fredholm_det(kernel, quad)
-end
-
-function _F1(s::Real, quad::Tuple{Array{T,1},Array{T,1}}) where {T<:Real}
-    kernel = ((ξ,η) -> _K1tilde(ξ,η,s))
+function _TWcdf(s::Real, beta::Integer, quad::Tuple{Array{T,1},Array{T,1}}) where {T<:Real}
+    if beta == 2
+        kernel = ((ξ,η) -> _K2tilde(ξ,η,s))
+    elseif beta == 1
+        kernel = ((ξ,η) -> _K1tilde(ξ,η,s))
+    end
     _fredholm_det(kernel, quad)
 end
 
