@@ -5,17 +5,13 @@ using SpecialFunctions, FastGaussQuadrature
 export TWcdf
 
 function TWcdf(s::Real; beta::Integer=2, num_points::Integer=25)
-    if beta ∉ (1,2,4)
-        throw(ArgumentError("Beta must be 1, 2, or 4."))
-    end
+    beta ∈ (1,2,4) || throw(ArgumentError("Beta must be 1, 2, or 4"))
     quad = gausslegendre(num_points)
     _TWcdf(s, beta, quad)
 end
 
 function TWcdf(s_vals::AbstractArray{T}; beta::Integer=2, num_points::Integer=25) where {T<:Real}
-    if beta ∉ (1,2,4)
-        throw(ArgumentError("Beta must be 1, 2, or 4"))
-    end
+    beta ∈ (1,2,4) || throw(ArgumentError("Beta must be 1, 2, or 4"))
     quad = gausslegendre(num_points)
     [_TWcdf(s, beta, quad) for s in s_vals]
 end
